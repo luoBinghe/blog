@@ -4,6 +4,7 @@ import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
+import { FaCalendarAlt, FaUser } from 'react-icons/fa'
 
 
 interface Post {
@@ -31,29 +32,53 @@ export default function Home() {
       <img src="/images/logo.svg" />
 
       <section>
-        <h2>Como ultilizar Hooks</h2>
+        <a href="#">Como ultilizar Hooks</a>
         <p>Pensando em sicronização em uma vez de ciclos de vida.</p>
-        <span>15 Mar 2021 Joseph Oliveira</span>
+        <div className={styles.span}>
+          <span>
+            <FaCalendarAlt className={styles.icon} />
+            15 Mar 2021 
+          </span>
+          <span>
+            <FaUser  className={styles.icon} />
+            Joseph Oliveira
+          </span>
+        </div>
       </section>
 
       <section>
-        <h2>Como ultilizar Hooks</h2>
+        <a href="#">Como ultilizar Hooks</a>
         <p>Pensando em sicronização em uma vez de ciclos de vida.</p>
-        <span>15 Mar 2021 Joseph Oliveira</span>
+        <div className={styles.span}>
+        <span>
+            <FaCalendarAlt className={styles.icon} />
+            15 Mar 2021 
+          </span>
+          <span>
+            <FaUser className={styles.icon}/>
+            Joseph Oliveira
+          </span>
+        </div>
       </section>
 
       <section>
-        <h2>Como ultilizar Hooks</h2>
+        <a href="#">Criando uma aplicação CRA do zero</a>
         <p>Pensando em sicronização em uma vez de ciclos de vida.</p>
-        <span>15 Mar 2021 Joseph Oliveira</span>
+        <div className={styles.span}>
+        <span>
+            <FaCalendarAlt className={styles.icon}/>
+            15 Mar 2021 
+          </span>
+          <span>
+            <FaUser  className={styles.icon}/>
+            Joseph Oliveira
+          </span>
+        </div>
       </section>
 
-      <section>
-        <h2>Como ultilizar Hooks</h2>
-        <p>Pensando em sicronização em uma vez de ciclos de vida.</p>
-        <span>15 Mar 2021 Joseph Oliveira</span>
-      </section>
-
+      <button>
+        Carregar mais posts
+      </button>
     </div>
 
   )
