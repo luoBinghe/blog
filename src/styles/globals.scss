@@ -4,4 +4,20 @@
   padding: 0;
 }
 
-// TODO
+:root {
+  --background-color: #1A1D23;
+  --white-title: #F8F8F8;
+  --gray: #D7D7D7;
+}
+
+body {
+  background: var(--background-color);
+  color: var(--gray);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--white-title);
+  font-weight: 700;
+}

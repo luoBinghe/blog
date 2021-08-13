@@ -1,1 +1,27 @@
-// TODO
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    img{
+        margin-top: 4rem;
+        margin-right: 29rem;
+        width: 14rem;
+        height: 1.6rem;
+    }
+
+    section{
+        width: 43rem;
+        height: 6rem;
+        margin-top: 4rem;
+
+        & + section {
+            margin-top: 2rem;
+        }
+
+        h2{
+            margin-bottom: 1.5rem;
+        }
+    }
+}

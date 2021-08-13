@@ -5,6 +5,7 @@ import { getPrismicClient } from '../services/prismic';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 
+
 interface Post {
   uid?: string;
   first_publication_date: string | null;
@@ -24,9 +25,39 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-// export default function Home() {
-//   // TODO
-// }
+export default function Home() {
+  return(
+    <div className={styles.container}>
+      <img src="/images/logo.svg" />
+
+      <section>
+        <h2>Como ultilizar Hooks</h2>
+        <p>Pensando em sicronização em uma vez de ciclos de vida.</p>
+        <span>15 Mar 2021 Joseph Oliveira</span>
+      </section>
+
+      <section>
+        <h2>Como ultilizar Hooks</h2>
+        <p>Pensando em sicronização em uma vez de ciclos de vida.</p>
+        <span>15 Mar 2021 Joseph Oliveira</span>
+      </section>
+
+      <section>
+        <h2>Como ultilizar Hooks</h2>
+        <p>Pensando em sicronização em uma vez de ciclos de vida.</p>
+        <span>15 Mar 2021 Joseph Oliveira</span>
+      </section>
+
+      <section>
+        <h2>Como ultilizar Hooks</h2>
+        <p>Pensando em sicronização em uma vez de ciclos de vida.</p>
+        <span>15 Mar 2021 Joseph Oliveira</span>
+      </section>
+
+    </div>
+
+  )
+}
 
 // export const getStaticProps = async () => {
 //   // const prismic = getPrismicClient();

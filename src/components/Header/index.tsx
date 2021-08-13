@@ -1,3 +1,5 @@
-export default function Header() {
-  // TODO
+export default function () {
+  return(
+    <h1>meu cu</h1>
+  )
 }

@@ -4,7 +4,7 @@ import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import Header from '../../components/Header';
 
 const mockedPush = jest.fn();
-let RouterWrapper;
+let RouterWrapper: ({ children }: { children: any; }) => JSX.Element;
 
 describe('Header', () => {
   beforeAll(() => {
