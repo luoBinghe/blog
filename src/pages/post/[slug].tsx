@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
+import Header from '../../components/Header';
 import styles from './post.module.scss';
 
 interface Post {
@@ -26,9 +27,11 @@ interface PostProps {
   post: Post;
 }
 
-// export default function Post() {
-//   // TODO
-// }
+export default function Post() {
+  return(
+    <Header />
+  )
+}
 
 // export const getStaticPaths = async () => {
 //   const prismic = getPrismicClient();

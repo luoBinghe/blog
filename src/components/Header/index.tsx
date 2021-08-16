@@ -1,5 +1,11 @@
+import style from './header.module.scss'
+
 export default function () {
   return(
-    <h1>meu cu</h1>
+    <div className={style.container}>
+      <header>
+        <img src="/images/logo.svg"/>
+      </header>
+    </div>
   )
 }
