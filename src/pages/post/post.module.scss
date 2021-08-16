@@ -1,1 +1,55 @@
-// TODO
+.banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    main{
+        width: 45rem;
+        height: 131rem;
+        margin-top: 5rem;
+
+        section{
+            h1{
+                font-size: 3rem;
+            }
+
+            .span{
+                display: flex;
+                flex-direction: row;
+                margin-top: 1rem;
+        
+                span {
+                    .icon{
+                        margin-right: 0.5rem;
+                    }
+        
+                    & + span{
+                        margin-left: 5rem;
+                    }
+                }
+            }
+        }
+
+        article{
+            margin-top: 5rem;
+
+            h3{
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            p{
+                font-size: 1rem;
+            }
+        }
+    }
+}
