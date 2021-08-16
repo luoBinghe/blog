@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
-import { FaCalendarAlt, FaUser } from 'react-icons/fa'
+import { FaCalendarAlt, FaUser, FaClock } from 'react-icons/fa'
 import Header from '../../components/Header';
 import styles from './post.module.scss';
 
@@ -32,10 +32,10 @@ export default function Post() {
   return(
     <>
     <Header />
-    <div className={styles.container}>
-      <div className={styles.banner}>
+    <div className={styles.banner}>
         <img src="/images/banner.jpeg" />
       </div>
+    <div className={styles.container}>
         <main>
           <section>
             <h1>Criando um app CRA do zero</h1>
@@ -47,6 +47,10 @@ export default function Post() {
             <span>
               <FaUser className={styles.icon}/>
               Joseph Oliveira
+            </span>
+            <span>
+              <FaClock className={styles.icon}/>
+              4 min
             </span>
           </div>
           </section>
