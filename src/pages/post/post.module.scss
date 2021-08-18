@@ -1,7 +1,11 @@
 .banner {
     display: flex;
-    width: 100%;
-    background-color: black;
+    justify-content: center;
+    max-height: 25rem;
+
+    img {
+        width: 50rem;
+    }
 
     @media(max-width: 720px){
         justify-content: center;
@@ -9,14 +13,13 @@
 }
 
 .container {
-    width: 100%;
     margin-top: 5rem;
     display: flex;
     justify-content: center;
 
     main{
-        width: 45rem;
         height: 40rem;
+        width: 45rem;
 
         section{
             h1{
