@@ -21,8 +21,8 @@ interface Post {
       heading: string;
       body: {
         text: string;
-      }[];
-    }[];
+      };
+    };
   };
 }
 
@@ -31,6 +31,7 @@ interface PostProps {
 }
 
 export default function Post(props: PostProps) {
+  console.log('props', props.post.data.content)
   return(
     <>
     <Header />
@@ -57,18 +58,10 @@ export default function Post(props: PostProps) {
           </div>
           </section>
           <article>
-            <h3>Proin et varius</h3>
-            <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.
-            </p>
-            <br/>
-            <br/>
-            <p>
-            t has survived not only five centuries, but also the leap into electronic typesetting, 
-            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
-            and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
-            </p>
+            <h3>{props.post.data.content.heading}</h3>
+            <p 
+              dangerouslySetInnerHTML={{__html: props.post.data.content.body.text}}
+            />
           </article>
         </main>
       </div>
@@ -108,14 +101,14 @@ export const getStaticProps: GetStaticProps = async context => {
       },
       author: response.data.author,
       content: {
-        heading: RichText.asText(response.data.content.map(head => RichText.asText(head.heading))),
+        heading: response.data.content.map(head => RichText.asText(head.heading)),
         body: {
-          text: RichText.asText(response.data.content.map(head => RichText.asText(head.body)))
+          text: response.data.content.map(head => RichText.asText(head.body))
         }
       }
     }
   }
-  console.log(post)
+  console.log('isabela: ', post)
   return{
     props: {
       post
