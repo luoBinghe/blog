@@ -36,7 +36,11 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-export default function Home({ posts }: PostProps) {
+export default function Home(props) {
+  const { posts } :PostProps  = props
+  const { postsPagination } :HomeProps = props
+
+  console.log('tst', postsPagination)
   return(
     <div className={styles.container}>
       <img src="/images/logo.svg" />
@@ -59,9 +63,11 @@ export default function Home({ posts }: PostProps) {
           </div>
         </section>
       ))}
-      <button>
-        Carregar mais posts
-      </button>
+      {postsPagination !== null && postsPagination !== undefined && (
+        <button>
+          Carregar mais posts 
+        </button>
+      )}
     </div>
 
   )
@@ -74,9 +80,19 @@ export const getStaticProps: GetStaticProps = async () => {
   ],
     {
       fetch: ['post.title', 'post.content'],
-      pageSize: 100,
+      pageSize: 5,
     }
   );
+
+  // const nextPage = await prismic.query([
+  //   Prismic.Predicates.at('document.type', 'posts')
+  // ],
+  //   {
+  //     after : ['post.uid'],
+  //     orderings: '[my.post.date]',
+  //     pageSize: 1,
+  //   }
+  // );
 
   const posts = postsResponse.results.map(post => {
     return {
@@ -90,14 +106,19 @@ export const getStaticProps: GetStaticProps = async () => {
         title: RichText.asText(post.data.title),
         subtitle: post.data.subtitle,
         author: post.data.author,
-      }
+      },
     } 
   })
 
-  console.log(posts)
+  const postsPagination = {
+    next_page: postsResponse.next_page,
+    results: posts
+  }
+
   return {
     props: {
-      posts
+      posts,
+      postsPagination
     }
   }
 };
