@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { GetStaticProps } from 'next';
 
 import { getPrismicClient } from '../services/prismic';
@@ -39,13 +40,17 @@ interface HomeProps {
 export default function Home(props) {
   const { posts } :PostProps  = props
   const { postsPagination } :HomeProps = props
+  const [pagination, setPagination] = useState(4)
 
-  console.log('tst', postsPagination)
+  function handleNewQuery(){
+    setPagination(pagination + 2)
+  }
+
   return(
     <div className={styles.container}>
       <img src="/images/logo.svg" />
 
-      {posts.map(post => (
+      {posts.slice(0, pagination).map(post => (
         <section key={post.uid}>
           <Link href={`/post/${post.uid}`} >
             <a>{post.data.title}</a>
@@ -63,8 +68,9 @@ export default function Home(props) {
           </div>
         </section>
       ))}
-      {postsPagination !== null && postsPagination !== undefined && (
-        <button>
+      {postsPagination !== null && postsPagination !== undefined &&
+      pagination -1 !== posts.length && (
+        <button onClick={handleNewQuery}>
           Carregar mais posts 
         </button>
       )}
@@ -80,19 +86,9 @@ export const getStaticProps: GetStaticProps = async () => {
   ],
     {
       fetch: ['post.title', 'post.content'],
-      pageSize: 5,
+      pageSize: 50,
     }
   );
-
-  // const nextPage = await prismic.query([
-  //   Prismic.Predicates.at('document.type', 'posts')
-  // ],
-  //   {
-  //     after : ['post.uid'],
-  //     orderings: '[my.post.date]',
-  //     pageSize: 1,
-  //   }
-  // );
 
   const posts = postsResponse.results.map(post => {
     return {
