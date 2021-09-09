@@ -21,8 +21,8 @@ interface Post {
       heading: string;
       body: {
         text: string;
-      };
-    };
+      }[];
+    }[];
   };
 }
 
@@ -31,6 +31,7 @@ interface PostProps {
 }
 
 export default function Post(props: PostProps) {
+  console.log('aa', props.post.data.content)
   return(
     <>
     <Header />
@@ -57,10 +58,13 @@ export default function Post(props: PostProps) {
           </div>
           </section>
           <article>
-            <h3>{props.post.data.content.heading[0]}</h3>
-            <p 
-              dangerouslySetInnerHTML={{__html: props.post.data.content.body.text}}
-            />
+            <h3>{props.post.data.content.map(a => a.heading)}</h3>
+            {props.post.data.content.map(text => (
+                text.body.map(txt => (
+                  <p>{txt.text}</p>
+                ))
+            ))
+            }
           </article>
         </main>
       </div>
@@ -99,12 +103,16 @@ export const getStaticProps: GetStaticProps = async context => {
         url: response.data.banner.url
       },
       author: response.data.author,
-      content: {
-        heading: response.data.content.map(head => RichText.asText(head.heading)),
-        body: {
-          text: response.data.content.map(head => RichText.asHtml(head.body))
+      content: response.data.content.map((post) => {
+        return {
+          heading: RichText.asText(post.heading),
+          body: post.body.map((text: { text: any; }) => {
+            return {
+              text: text.text
+            }
+          })
         }
-      }
+      })
     }
   }
   return{
