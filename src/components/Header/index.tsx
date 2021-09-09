@@ -7,7 +7,7 @@ export default function () {
       <header>
         <Link href="/">
           <a>
-            <img src="/images/logo.svg"/>
+            <img src="/images/logo.svg" alt="logo"/>
           </a>
         </Link>
       </header>

@@ -11,6 +11,9 @@ import Link from 'next/link'
 
 import { RichText } from 'prismic-dom'
 
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 
 interface Post {
   uid?: string;
@@ -24,10 +27,6 @@ interface Post {
   };
 }
 
-interface PostProps {
-  posts: Post[]
-}
-
 interface PostPagination {
   next_page: string;
   results: Post[];
@@ -37,11 +36,9 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-export default function Home(props) {
-  const { posts } :PostProps  = props
-  const { postsPagination } :HomeProps = props
+export default function Home({ postsPagination }: HomeProps) {
   const [pagination, setPagination] = useState(4)
-
+  console.log('aa', postsPagination)
   function handleNewQuery(){
     setPagination(pagination + 2)
   }
@@ -50,7 +47,7 @@ export default function Home(props) {
     <div className={styles.container}>
       <img src="/images/logo.svg" />
 
-      {posts.slice(0, pagination).map(post => (
+      {postsPagination.results.slice(0, pagination).map(post => (
         <section key={post.uid}>
           <Link href={`/post/${post.uid}`} >
             <a>{post.data.title}</a>
@@ -69,7 +66,7 @@ export default function Home(props) {
         </section>
       ))}
       {postsPagination !== null && postsPagination !== undefined &&
-      pagination -1 !== posts.length && (
+      pagination -1 !== postsPagination.results.length && (
         <button onClick={handleNewQuery}>
           Carregar mais posts 
         </button>
@@ -93,13 +90,13 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts = postsResponse.results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: new Date(post.first_publication_date).toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric'
+      first_publication_date: format(new Date(post.first_publication_date), 'dd LLL Y', {
+        locale: ptBR,
       }),
       data: {
-        title: RichText.asText(post.data.title),
+        title: post.data.title.map(title => (
+          RichText.asText(title.text)
+        )),
         subtitle: post.data.subtitle,
         author: post.data.author,
       },
@@ -113,7 +110,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      posts,
       postsPagination
     }
   }

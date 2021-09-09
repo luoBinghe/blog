@@ -9,6 +9,9 @@ import styles from './post.module.scss';
 import Prismic from '@prismicio/client'
 import { RichText } from 'prismic-dom'
 
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 interface Post {
   first_publication_date: string | null;
   data: {
@@ -31,7 +34,7 @@ interface PostProps {
 }
 
 export default function Post(props: PostProps) {
-  console.log('aa', props.post.data.content)
+  console.log('isabela', props)
   return(
     <>
     <Header />
@@ -58,11 +61,13 @@ export default function Post(props: PostProps) {
           </div>
           </section>
           <article>
-            <h3>{props.post.data.content.map(a => a.heading)}</h3>
             {props.post.data.content.map(text => (
-                text.body.map(txt => (
-                  <p>{txt.text}</p>
-                ))
+              <>
+                <h3>{text.heading}</h3>
+                {text.body.map(txt => (
+                  <p key={props.post.data.title}>{txt.text}</p>
+                ))}
+              </>
             ))
             }
           </article>
@@ -82,7 +87,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   }
 
 };
@@ -92,10 +97,8 @@ export const getStaticProps: GetStaticProps = async context => {
   const prismic = getPrismicClient();
   const response = await prismic.getByUID('posts', `${slug}`, {})
   const post = {
-    first_publication_date: new Date(response.first_publication_date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
+    first_publication_date: format(new Date(response.first_publication_date), 'dd LLL Y', {
+      locale: ptBR,
     }),
     data: {
       title: RichText.asText(response.data.title),
