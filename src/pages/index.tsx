@@ -38,11 +38,10 @@ interface HomeProps {
 
 export default function Home({ postsPagination }: HomeProps) {
   const [pagination, setPagination] = useState(4)
-  console.log('aa', postsPagination)
   function handleNewQuery(){
-    setPagination(pagination + 2)
+    setPagination(pagination + 2) 
   }
-
+  console.log({postsPagination})
   return(
     <div className={styles.container}>
       <img src="/images/logo.svg" />
@@ -56,7 +55,7 @@ export default function Home({ postsPagination }: HomeProps) {
           <div className={styles.span}>
             <span>
               <FaCalendarAlt className={styles.icon} />
-              {post.first_publication_date}
+              {format(new Date(post.first_publication_date), 'dd LLL Y', {  locale: ptBR,})}
             </span>
             <span>
               <FaUser  className={styles.icon} />
@@ -65,7 +64,7 @@ export default function Home({ postsPagination }: HomeProps) {
           </div>
         </section>
       ))}
-      {postsPagination !== null && postsPagination !== undefined &&
+      {postsPagination.next_page !== null &&
       pagination -1 !== postsPagination.results.length && (
         <button onClick={handleNewQuery}>
           Carregar mais posts 
@@ -83,20 +82,16 @@ export const getStaticProps: GetStaticProps = async () => {
   ],
     {
       fetch: ['post.title', 'post.content'],
-      pageSize: 50,
+      pageSize: 5,
     }
   );
 
   const posts = postsResponse.results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: format(new Date(post.first_publication_date), 'dd LLL Y', {
-        locale: ptBR,
-      }),
+      first_publication_date: post.first_publication_date,
       data: {
-        title: post.data.title.map(title => (
-          RichText.asText(title.text)
-        )),
+        title: post.data.title[0].text,
         subtitle: post.data.subtitle,
         author: post.data.author,
       },

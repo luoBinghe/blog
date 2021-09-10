@@ -34,7 +34,7 @@ interface PostProps {
 }
 
 export default function Post(props: PostProps) {
-  console.log('isabela', props)
+  console.log(typeof props.post.data.title)
   return(
     <>
     <Header />
@@ -44,11 +44,13 @@ export default function Post(props: PostProps) {
     <div className={styles.container}>
         <main>
           <section>
-            <h1>{props.post.data.title}</h1>
+            <h1 
+              dangerouslySetInnerHTML={{__html: props.post.data.title}}
+            />
             <div className={styles.span}>
             <span>
               <FaCalendarAlt className={styles.icon} />
-              {props.post.first_publication_date}
+              {format(new Date(props.post.first_publication_date), 'dd LLL Y', {  locale: ptBR,})}
             </span>
             <span>
               <FaUser className={styles.icon}/>
@@ -97,18 +99,17 @@ export const getStaticProps: GetStaticProps = async context => {
   const prismic = getPrismicClient();
   const response = await prismic.getByUID('posts', `${slug}`, {})
   const post = {
-    first_publication_date: format(new Date(response.first_publication_date), 'dd LLL Y', {
-      locale: ptBR,
-    }),
+    first_publication_date: response.first_publication_date,
     data: {
-      title: RichText.asText(response.data.title),
+      uid: response.uid,
+      title: response.data.title[0].text, 
       banner: {
         url: response.data.banner.url
       },
       author: response.data.author,
       content: response.data.content.map((post) => {
         return {
-          heading: RichText.asText(post.heading),
+          heading: post.heading[0].text,
           body: post.body.map((text: { text: any; }) => {
             return {
               text: text.text
@@ -118,6 +119,7 @@ export const getStaticProps: GetStaticProps = async context => {
       })
     }
   }
+
   return{
     props: {
       post
