@@ -7,7 +7,6 @@ import { FaCalendarAlt, FaUser, FaClock } from 'react-icons/fa'
 import Header from '../../components/Header';
 import styles from './post.module.scss';
 import Prismic from '@prismicio/client'
-import { RichText } from 'prismic-dom'
 
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
@@ -34,7 +33,6 @@ interface PostProps {
 }
 
 export default function Post(props: PostProps) {
-  console.log(typeof props.post.data.title)
   return(
     <>
     <Header />
@@ -100,8 +98,8 @@ export const getStaticProps: GetStaticProps = async context => {
   const response = await prismic.getByUID('posts', `${slug}`, {})
   const post = {
     first_publication_date: response.first_publication_date,
+    uid: response.uid,
     data: {
-      uid: response.uid,
       title: response.data.title[0].text, 
       banner: {
         url: response.data.banner.url

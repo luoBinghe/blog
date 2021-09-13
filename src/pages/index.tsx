@@ -37,16 +37,35 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps) {
-  const [pagination, setPagination] = useState(4)
+  const [pagination, setPagination] = useState<PostPagination>(postsPagination)
+
+  console.log(pagination)
   function handleNewQuery(){
-    setPagination(pagination + 2) 
+    fetch(postsPagination.next_page)
+    .then(res => res.json())
+    .then((res) => {
+      const posts = res.results.map(post => {
+        return {
+          uid: post.uid,
+          first_publication_date: post.first_publication_date,
+          data: {
+            title: post.data.title[0].text,
+            subtitle: post.data.subtitle,
+            author: post.data.author,
+          },
+        } 
+      })
+      const page = {...pagination}
+      const newPosts = page.results.concat(posts)
+      setPagination({next_page: res.next_page, results: newPosts})
+    })
   }
-  console.log({postsPagination})
+
   return(
     <div className={styles.container}>
       <img src="/images/logo.svg" />
 
-      {postsPagination.results.slice(0, pagination).map(post => (
+      {pagination.results.map(post => (
         <section key={post.uid}>
           <Link href={`/post/${post.uid}`} >
             <a>{post.data.title}</a>
@@ -64,8 +83,7 @@ export default function Home({ postsPagination }: HomeProps) {
           </div>
         </section>
       ))}
-      {postsPagination.next_page !== null &&
-      pagination -1 !== postsPagination.results.length && (
+      {pagination.next_page !== null && (
         <button onClick={handleNewQuery}>
           Carregar mais posts 
         </button>
@@ -82,7 +100,7 @@ export const getStaticProps: GetStaticProps = async () => {
   ],
     {
       fetch: ['post.title', 'post.content'],
-      pageSize: 5,
+      pageSize: 2,
     }
   );
 
