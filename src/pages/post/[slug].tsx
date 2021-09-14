@@ -10,6 +10,7 @@ import Prismic from '@prismicio/client'
 
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import { useRouter } from 'next/router';
 
 interface Post {
   first_publication_date: string | null;
@@ -33,6 +34,13 @@ interface PostProps {
 }
 
 export default function Post(props: PostProps) {
+
+  const router = useRouter()
+
+  if(router.isFallback){
+    return <h3>Carregando...</h3>
+  }
+
   return(
     <>
     <Header />

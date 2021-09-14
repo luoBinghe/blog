@@ -9,8 +9,6 @@ import { FaCalendarAlt, FaUser } from 'react-icons/fa'
 import Prismic from '@prismicio/client'
 import Link from 'next/link'
 
-import { RichText } from 'prismic-dom'
-
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
@@ -37,14 +35,19 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps) {
-  const [pagination, setPagination] = useState<PostPagination>(postsPagination)
+  const [pagination, setPagination] = useState(postsPagination.next_page)
+  const [post, setPost] = useState(postsPagination.results)
 
   console.log(pagination)
   function handleNewQuery(){
-    fetch(postsPagination.next_page)
+    if(!pagination){
+      return
+    }
+
+    fetch(pagination)
     .then(res => res.json())
     .then((res) => {
-      const posts = res.results.map(post => {
+      const newPosts = res.results.map(post => {
         return {
           uid: post.uid,
           first_publication_date: post.first_publication_date,
@@ -55,9 +58,9 @@ export default function Home({ postsPagination }: HomeProps) {
           },
         } 
       })
-      const page = {...pagination}
-      const newPosts = page.results.concat(posts)
-      setPagination({next_page: res.next_page, results: newPosts})
+      
+      setPagination(res.next_page)
+      setPost([...post, ...newPosts])
     })
   }
 
@@ -65,7 +68,7 @@ export default function Home({ postsPagination }: HomeProps) {
     <div className={styles.container}>
       <img src="/images/logo.svg" />
 
-      {pagination.results.map(post => (
+      {post.map(post => (
         <section key={post.uid}>
           <Link href={`/post/${post.uid}`} >
             <a>{post.data.title}</a>
@@ -83,7 +86,7 @@ export default function Home({ postsPagination }: HomeProps) {
           </div>
         </section>
       ))}
-      {pagination.next_page !== null && (
+      {pagination && (
         <button onClick={handleNewQuery}>
           Carregar mais posts 
         </button>
