@@ -45,6 +45,7 @@
 
         article{
             margin-top: 5rem;
+            margin-bottom: 3rem;
 
             h3{
                 font-size: 2rem;
@@ -61,5 +62,13 @@
             }
         }
     }
+}
+
+.comments {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 16rem;
+    margin-bottom: 3rem;
 }
 

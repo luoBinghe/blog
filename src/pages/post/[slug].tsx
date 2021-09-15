@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { getPrismicClient } from '../../services/prismic';
@@ -11,6 +13,8 @@ import Prismic from '@prismicio/client'
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { useRouter } from 'next/router';
+
+import { useUtterances } from '../../hooks/useUtterances'
 
 interface Post {
   first_publication_date: string | null;
@@ -34,7 +38,8 @@ interface PostProps {
 }
 
 export default function Post(props: PostProps) {
-
+  const commentNodeId = 'comments';
+  useUtterances(commentNodeId);
   const router = useRouter()
 
   if(router.isFallback){
@@ -81,6 +86,7 @@ export default function Post(props: PostProps) {
           </article>
         </main>
       </div>
+      <div className={styles.comments} id={commentNodeId} />
     </>
   )
 }
