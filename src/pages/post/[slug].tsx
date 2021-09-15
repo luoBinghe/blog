@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import { useUtterances } from '../../hooks/useUtterances'
 
 interface Post {
+  last_publication_date: string | null; 
   first_publication_date: string | null;
   data: {
     title: string;
@@ -72,6 +73,7 @@ export default function Post(props: PostProps) {
               4 min
             </span>
           </div>
+          <p>* editado em {format(new Date(props.post.last_publication_date), 'dd LLL Y,  H:m', {  locale: ptBR,})}</p>
           </section>
           <article>
             {props.post.data.content.map(text => (
@@ -111,6 +113,7 @@ export const getStaticProps: GetStaticProps = async context => {
   const prismic = getPrismicClient();
   const response = await prismic.getByUID('posts', `${slug}`, {})
   const post = {
+    last_publication_date: response.last_publication_date,
     first_publication_date: response.first_publication_date,
     uid: response.uid,
     data: {
