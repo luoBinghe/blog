@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { getPrismicClient } from '../../services/prismic';
@@ -7,6 +5,7 @@ import { getPrismicClient } from '../../services/prismic';
 import commonStyles from '../../styles/common.module.scss';
 import { FaCalendarAlt, FaUser, FaClock } from 'react-icons/fa'
 import Header from '../../components/Header';
+import { NextPost } from '../../components/NextPost';
 import styles from './post.module.scss';
 import Prismic from '@prismicio/client'
 
@@ -86,8 +85,10 @@ export default function Post(props: PostProps) {
             ))
             }
           </article>
+          <div className={styles.decorLine} />
         </main>
       </div>
+      <NextPost />
       <div className={styles.comments} id={commentNodeId} />
     </>
   )

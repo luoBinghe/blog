@@ -1,0 +1,21 @@
+.next{
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 12rem 0 12rem;
+    margin-bottom: 2.5rem;
+
+    div {
+        a{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+    
+            color: var(--pink-light);
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+    }
+}

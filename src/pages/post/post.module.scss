@@ -14,11 +14,11 @@
 
 .container {
     margin-top: 5rem;
+    margin-bottom: 6rem;
     display: flex;
     justify-content: center;
 
     main{
-        height: 40rem;
         width: 45rem;
 
         section{
@@ -50,8 +50,7 @@
         }
 
         article{
-            margin-top: 5rem;
-            margin-bottom: 3rem;
+            margin-top: 5rem;   
 
             h3{
                 font-size: 2rem;
@@ -67,14 +66,18 @@
                 }
             }
         }
+
+        .decorLine{
+            margin-top: 5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid gray;
+            height: 2rem;
+        }
     }
 }
 
 .comments {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 16rem;
+    padding-top: 3rem;
     margin-bottom: 3rem;
 }
 
